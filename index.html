@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abraham Otieno - Executive Assistant Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .applicant-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .applicant-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary);
+            flex-shrink: 0;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+        }
+        
+        .applicant-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .applicant-info h2 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        
+        .applicant-info p {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .applicant-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tag {
+            background: var(--light);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .qa-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        
+        .questions-nav {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .questions-nav h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .question-list {
+            list-style: none;
+        }
+        
+        .question-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .question-item:hover {
+            background: var(--light);
+        }
+        
+        .question-item.active {
+            background: var(--light);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .answers-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            min-height: 600px;
+        }
+        
+        .answer-card {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .answer-card.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .answer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .question-number {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .answer-header h3 {
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+        
+        .answer-content {
+            padding-left: 55px;
+        }
+        
+        .answer-text {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--dark);
+        }
+        
+        .answer-highlight {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            margin: 20px 0;
+        }
+        
+        .answer-highlight h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .skills-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .skill-card {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .skill-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+        }
+        
+        .skill-card h4 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .availability-card {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 4px solid var(--success);
+        }
+        
+        .availability-card h3 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .salary-expectation {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .salary-expectation h3 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .salary-range {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .salary-note {
+            text-align: center;
+            color: var(--gray);
+            font-style: italic;
+            margin-top: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .qa-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .applicant-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .applicant-tags {
+                justify-content: center;
+            }
+            
+            .answer-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .answer-content {
+                padding-left: 0;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Executive Assistant Application</h1>
+            <p>Interactive Q&A Portfolio - Abraham Otieno</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="applicant-card">
+            <div class="applicant-img">
+                <img src="abu.jpg" alt="Abraham Otieno" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\"fas fa-user\"></i>';">
+            </div>
+            <div class="applicant-info">
+                <h2>Abraham Otieno</h2>
+                <p>Certified Virtual Assistant | Executive Support Specialist</p>
+                <p>Nairobi, Kenya (Available for London Hours)</p>
+                <div class="applicant-tags">
+                    <div class="tag">Executive Assistance</div>
+                    <div class="tag">Remote Operations</div>
+                    <div class="tag">CRM Management</div>
+                    <div class="tag">Strategic Support</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="qa-container">
+            <div class="questions-nav">
+                <h3>Application Questions</h3>
+                <ul class="question-list">
+                    <li class="question-item active" data-target="answer1">Energizing Aspects & Growth</li>
+                    <li class="question-item" data-target="answer2">Approaching New Tasks</li>
+                    <li class="question-item" data-target="answer3">Anticipating Needs</li>
+                    <li class="question-item" data-target="answer4">Supporting Multiple Executives</li>
+                    <li class="question-item" data-target="answer5">Quick Learning Experience</li>
+                    <li class="question-item" data-target="answer6">Organization Systems</li>
+                    <li class="question-item" data-target="answer7">Problem Prevention</li>
+                    <li class="question-item" data-target="answer8">Availability</li>
+                    <li class="question-item" data-target="answer9">Compensation Expectations</li>
+                </ul>
+            </div>
+            
+            <div class="answers-container">
+                <!-- Answer 1 -->
+                <div class="answer-card active" id="answer1">
+                    <div class="answer-header">
+                        <div class="question-number">1</div>
+                        <h3>What part of being an EA do you find most energizing, and where do you see yourself learning and growing in a role like this?</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <p>What energizes me most about being an Executive Assistant is the feeling of making things run smoothly behind the scenes. I enjoy being the person who helps an executive stay focused on strategy while I handle the details — scheduling, coordination, and communication that keep everything on track.</p>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-lightbulb"></i> My Approach</h4>
+                                <p>I find satisfaction in bringing order to busy calendars and turning chaos into structure. At the same time, I'm always learning — especially in understanding new systems, refining communication styles, and improving how I anticipate needs.</p>
+                            </div>
+                            
+                            <p>In this role, I see myself growing even more in strategic thinking, project ownership, and mastering new collaboration tools that make remote teamwork seamless.</p>
+                        </div>
+                        
+                        <div class="skills-showcase">
+                            <div class="skill-card">
+                                <div class="skill-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <h4>Calendar Management</h4>
+                                <p>Expert in complex scheduling</p>
+                            </div>
+                            <div class="skill-card">
+                                <div class="skill-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <h4>Communication</h4>
+                                <p>Clear & professional</p>
+                            </div>
+                            <div class="skill-card">
+                                <div class="skill-icon">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <h4>Tool Mastery</h4>
+                                <p>Quick to learn new systems</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Answer 2 -->
+                <div class="answer-card" id="answer2">
+                    <div class="answer-header">
+                        <div class="question-number">2</div>
+                        <h3>You're asked to complete a task you've never done before, and no clear instructions are provided. How do you approach it?</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <p>When faced with an unfamiliar task, I follow a systematic approach that balances initiative with smart verification.</p>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-road"></i> My 4-Step Process</h4>
+                                <ol>
+                                    <li><strong>Clarify the Goal:</strong> Understand what success looks like, even if the method isn't clear</li>
+                                    <li><strong>Research & Reference:</strong> Look for examples and check available resources or past documents</li>
+                                    <li><strong>Plan & Test:</strong> Outline a quick plan and start with a small test version</li>
+                                    <li><strong>Verify & Execute:</strong> Confirm I'm on the right track before going all in</li>
+                                </ol>
+                            </div>
+                            
+                            <p>I'm not afraid to ask smart questions, but I always take initiative first. I've found that most challenges are solvable once you understand the "why" behind the task.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Answer 3 -->
+                <div class="answer-card" id="answer3">
+                    <div class="answer-header">
+                        <div class="question-number">3</div>
+                        <h3>What's a moment, at work or elsewhere, where you anticipated a need or problem before it happened? Walk me through what you noticed and how you acted.</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <p>While supporting the CEO at Pioneer Outsourcing BPO, I noticed a recurring pattern that had the potential to create significant operational issues.</p>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-exclamation-triangle"></i> The Problem I Spotted</h4>
+                                <p>Multiple meeting conflicts appearing in the CEO's calendar as we expanded international operations. I realized time zone confusion was the root cause.</p>
+                            </div>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-cogs"></i> My Proactive Solution</h4>
+                                <p>Before it became a recurring problem, I created a standardized meeting schedule with clear time zone labels and automated reminders. This prevented overlap, saved hours of coordination time, and kept the team aligned globally.</p>
+                            </div>
+                            
+                            <p>This experience taught me that small process improvements can make a huge difference in productivity and that anticipating needs is a core part of effective executive support.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Answer 4 -->
+                <div class="answer-card" id="answer4">
+                    <div class="answer-header">
+                        <div class="question-number">4</div>
+                        <h3>Imagine you've just joined a new team. You need to support three different people with different working styles and expectations. What's your game plan for building trust and being effective quickly?</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <p>When joining a new team with multiple stakeholders, I implement a structured approach to quickly understand individual needs while establishing reliable support systems.</p>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-users"></i> My 3-Phase Integration Plan</h4>
+                                <ol>
+                                    <li><strong>Discovery Phase (Week 1):</strong> Meet each person individually to understand their priorities, communication style, and preferences</li>
+                                    <li><strong>Structure Phase (Week 2):</strong> Build a shared system for updates (weekly check-ins, shared task tracker) so everyone stays informed</li>
+                                    <li><strong>Optimization Phase (Ongoing):</strong> Look for patterns to better anticipate each person's needs and refine support approach</li>
+                                </ol>
+                            </div>
+                            
+                            <p>Consistency builds trust, so I focus on reliability early on: meeting deadlines, communicating clearly, and adjusting based on feedback. This approach has helped me quickly integrate into new teams at both Pioneer Outsourcing BPO and MSTRpay.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Answer 5 -->
+                <div class="answer-card" id="answer5">
+                    <div class="answer-header">
+                        <div class="question-number">5</div>
+                        <h3>Describe a time you had to learn something quickly and on your own. How did you approach it, and what did you take away from the experience?</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <p>When I joined MSTRpay, I was faced with a significant learning challenge that required rapid skill acquisition.</p>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-rocket"></i> The Challenge</h4>
+                                <p>I had to quickly master a new CRM system that none of the team had used before, with immediate implementation needs.</p>
+                            </div>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-graduation-cap"></i> My Learning Strategy</h4>
+                                <ul>
+                                    <li>Watched tutorial videos during off-hours</li>
+                                    <li>Read through all available documentation</li>
+                                    <li>Practiced extensively with test data</li>
+                                    <li>Created visual guides for the team</li>
+                                    <li>Conducted training sessions for colleagues</li>
+                                </ul>
+                            </div>
+                            
+                            <p>Within just a few days, I went from complete novice to team resource. The experience taught me that self-learning isn't about knowing everything — it's about curiosity, consistency, and being resourceful enough to connect the dots quickly.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Answer 6 -->
+                <div class="answer-card" id="answer6">
+                    <div class="answer-header">
+                        <div class="question-number">6</div>
+                        <h3>What systems, habits, or tools do you personally use to stay on top of follow-ups, moving deadlines, and shifting priorities?</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <p>I live by structure and have developed a comprehensive system that keeps me organized and responsive to changing priorities.</p>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-toolbox"></i> My Productivity Toolkit</h4>
+                                <ul>
+                                    <li><strong>Google Calendar:</strong> For scheduling and color-coding priorities</li>
+                                    <li><strong>Asana:</strong> For task tracking and project management</li>
+                                    <li><strong>Slack Reminders:</strong> For daily follow-ups and time-sensitive actions</li>
+                                    <li><strong>Note-taking App:</strong> For capturing ideas and meeting notes</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-clock"></i> My Daily Habits</h4>
+                                <ul>
+                                    <li><strong>Morning Review:</strong> Each day starts with identifying top three priorities</li>
+                                    <li><strong>Running List:</strong> Maintaining a "next actions" list that's updated throughout the day</li>
+                                    <li><strong>Weekly Planning:</strong> A dedicated session to review the week ahead and adjust priorities</li>
+                                </ul>
+                            </div>
+                            
+                            <p>These small but consistent habits help me stay calm and organized even when things change unexpectedly, ensuring nothing falls through the cracks.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Answer 7 -->
+                <div class="answer-card" id="answer7">
+                    <div class="answer-header">
+                        <div class="question-number">7</div>
+                        <h3>Tell me about a time when something you were working on started to go off track. What did you notice, and what did you do about it?</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <p>While preparing a quarterly report for the CPO at MSTRpay, I identified a critical data inconsistency that threatened the accuracy of our reporting.</p>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-search"></i> The Red Flag</h4>
+                                <p>I noticed discrepancies between financial data provided by the finance department and headcount numbers from HR while compiling the quarterly report.</p>
+                            </div>
+                            
+                            <div class="answer-highlight">
+                                <h4><i class="fas fa-hands-helping"></i> My Response</h4>
+                                <ul>
+                                    <li>Immediately flagged the issue to stakeholders</li>
+                                    <li>Independently verified the numbers from both sources</li>
+                                    <li>Arranged a quick sync meeting between both departments</li>
+                                    <li>Facilitated resolution of the data conflict</li>
+                                    <li>Corrected the report before it reached leadership</li>
+                                </ul>
+                            </div>
+                            
+                            <p>This proactive approach prevented misinformation from reaching decision-makers and reinforced my belief that catching small issues early is part of being a dependable assistant — not just reacting to problems, but actively protecting accuracy and trust.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Answer 8 -->
+                <div class="answer-card" id="answer8">
+                    <div class="answer-header">
+                        <div class="question-number">8</div>
+                        <h3>Are you currently working? If so, when would you be available to start?</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <div class="availability-card">
+                                <h3><i class="fas fa-calendar-check"></i> Availability Status</h3>
+                                <p>I'm currently available and ready to begin immediately. I can seamlessly align with London business hours and am excited about the possibility of contributing to your team without any transition delays.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Answer 9 -->
+                <div class="answer-card" id="answer9">
+                    <div class="answer-header">
+                        <div class="question-number">9</div>
+                        <h3>To help us understand your compensation expectations, could you share the salary range you're targeting (in USD per month)?</h3>
+                    </div>
+                    <div class="answer-content">
+                        <div class="answer-text">
+                            <div class="salary-expectation">
+                                <h3><i class="fas fa-money-bill-wave"></i> Compensation Expectations</h3>
+                                <p>Based on my 6+ years of experience as a Virtual Assistant and Executive Partner, along with current market standards for remote Executive Assistant roles, I'm targeting:</p>
+                                <div class="salary-range">$800 – $1,200 USD per month</div>
+                                <p class="salary-note">I'm open to discussion based on the specific scope of responsibilities, growth opportunities, and overall compensation package.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="container">
+            <p>Abraham Otieno - Executive Assistant Application | October 2025</p>
+            <div class="contact-info">
+                <a href="mailto:abraham.otienoa@gmail.com" class="contact-item">
+                    <i class="fas fa-envelope"></i> abraham.otienoa@gmail.com
+                </a>
+                <a href="tel:+254757272468" class="contact-item">
+                    <i class="fas fa-phone"></i> +254 757 272 468
+                </a>
+                <a href="https://linkedin.com/in/abraham-otieno-665678317" class="contact-item">
+                    <i class="fab fa-linkedin"></i> LinkedIn Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Question navigation
+        document.querySelectorAll('.question-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all questions
+                document.querySelectorAll('.question-item').forEach(q => {
+                    q.classList.remove('active');
+                });
+                
+                // Add active class to clicked question
+                this.classList.add('active');
+                
+                // Hide all answer cards
+                document.querySelectorAll('.answer-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                
+                // Show the selected answer card
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
